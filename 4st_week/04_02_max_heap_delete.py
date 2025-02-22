@@ -15,28 +15,38 @@ class MaxHeap:
                 break
 
     def delete(self):
+        '''
+        최대 힙에서 원소 삭제는 루트 노드를 삭제하는 것
+        > 항상 맨 위의 루트 노드가 제거
+
+        1. 루트 노드와 맨 끝의 원소 교체
+        2. 맨 뒤의 원소(루트 노드)를 삭제
+        3. 변경된 노드와 자식 노드를 비교
+        4. 두 자식 중 더 큰 자식과 비교해 자식이 더 큰 경우 교체
+        5. 2번에서 제거한 원래 루트 노드를 반환
+        '''
         self.items[1], self.items[-1] = self.items[-1], self.items[1]
         prev_max = self.items.pop()
-        cur_index = 1
+        cur_idx = 1
 
-        while cur_index <= len(self.items) - 1:
-            left_child_index = cur_index * 2
-            right_child_index = cur_index * 2 + 1
-            max_index = cur_index
+        while cur_idx <= len(self.items) - 1:
+            left_child_idx = cur_idx * 2
+            right_child_idx = cur_idx * 2 + 1
+            max_idx = cur_idx
 
-            if left_child_index <= len(self.items) - 1 and self.items[left_child_index] > self.items[max_index]:
-                max_index = left_child_index
+            if left_child_idx <= len(self.items) - 1 and self.items[left_child_idx] > self.items[max_idx]:
+                max_idx = left_child_idx
 
-            if right_child_index <= len(self.items) - 1 and self.items[right_child_index] > self.items[max_index]:
-                max_index = right_child_index
+            if right_child_idx <= len(self.items) - 1 and self.items[right_child_idx] > self.items[max_idx]:
+                max_idx = right_child_idx
 
-            if max_index == cur_index:
+            if max_idx == cur_idx:
                 break
 
-            self.items[cur_index], self.items[max_index] = self.items[max_index], self.items[cur_index]
-            cur_index = max_index
+            self.items[cur_idx], self.items[max_idx] = self.items[max_idx], self.items[cur_idx]
+            cur_idx = max_idx
+            return prev_max  # 8 을 반환해야 합니다.
 
-        return prev_max
 
 max_heap = MaxHeap()
 max_heap.insert(8)
@@ -46,5 +56,5 @@ max_heap.insert(2)
 max_heap.insert(5)
 max_heap.insert(4)
 print(max_heap.items)  # [None, 8, 6, 7, 2, 5, 4]
-print(max_heap.delete())  # 8 을 반환해야 합니다!
+print(max_heap.delete())
 print(max_heap.items)  # [None, 7, 6, 4, 2, 5]
